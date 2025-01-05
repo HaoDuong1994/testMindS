@@ -1,3 +1,5 @@
+const Users = require("../Model/user");
+const userService = require("../Service/user");
 const userMiddleware = {
   validate: async (req, res, next) => {
     try {
@@ -9,6 +11,26 @@ const userMiddleware = {
       return next();
     } catch (error) {
       res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+  authen: async (req, res, next) => {
+    try {
+      const { email, password } = req.body;
+      if (!email) throw new Error("Email required");
+      if (!password) throw new Error("password required");
+      //Find user
+      const user = await Users.findOne({ email });
+      if (!user) throw new Error("Email or password not correct");
+
+      //Compare password
+      const hashFromDB = user.password;
+      const isPassCorrect = await userService.compareHash(password, hashFromDB);
+      if (!isPassCorrect) throw new Error("Email or password not correct");
+      return next();
+    } catch (error) {
+      res.status(400).json({
         message: error.message,
       });
     }

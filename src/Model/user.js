@@ -13,6 +13,7 @@ const usersSchema = new Schema({
   },
   userId: {
     type: String,
+    unique: true,
   },
   password: String,
 });
