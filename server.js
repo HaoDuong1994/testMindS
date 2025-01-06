@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const userRouter = require("./src/Route/userRoute");
+const postRouter = require("./src/Route/postRouter");
 //Config .env
 dotenv.config();
 
@@ -21,4 +22,9 @@ app.listen(process.env.PORT, () => {
 });
 
 ///API
+//Users API
+
 app.use("/api/v1/user", userRouter);
+
+//Post API
+app.use("/api/v1/posts", postRouter);

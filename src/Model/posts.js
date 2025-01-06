@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const postSchema = new Schema({
   id: Schema.Types.ObjectId,
-  name: {
-    type: String,
-    unique: true,
-  },
   userId: {
     type: String,
   },
@@ -16,7 +12,7 @@ const postSchema = new Schema({
   createdAt: {
     type: Date,
     required: true,
-    default: Date.now,
+    default: Date.now(),
   },
 });
 const Posts = mongoose.model("Posts", postSchema);

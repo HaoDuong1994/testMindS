@@ -1,5 +1,6 @@
 const Users = require("../Model/user");
 const userService = require("../Service/user");
+const jwt = require("jsonwebtoken");
 const userMiddleware = {
   validate: async (req, res, next) => {
     try {
@@ -33,6 +34,28 @@ const userMiddleware = {
       res.status(400).json({
         message: error.message,
       });
+    }
+  },
+  checkLogin: async (req, res, next) => {
+    //
+    try {
+      const token = req.headers.authorization.split("Bearer")[1];
+      if (!token) throw new Error("Login required");
+      return next();
+    } catch (error) {
+      res.status(400).json({
+        message: error.message,
+      });
+    }
+  },
+  author: async (req, res, next) => {
+    try {
+      const token = req.headers.authorization.split("Bearer ")[1];
+      const user = jwt.verify(token, "duongvihao");
+      if (!user) return new Error("Wrong users");
+      return next();
+    } catch (error) {
+      console.log("eroor", error);
     }
   },
 };

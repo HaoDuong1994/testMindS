@@ -38,9 +38,10 @@ const userController = {
       //Get user
       const email = req.body.email;
       const user = await Users.findOne({ email });
+      await user.save();
       const payload = {
         name: user.name,
-        id: user.id,
+        id: user._id,
       };
       //Create token
       const token = await userService.createToken(payload);
