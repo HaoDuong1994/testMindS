@@ -9,4 +9,12 @@ postRouter.post(
   userMiddleware.author,
   postController.create
 );
+
+//Update Post
+postRouter.put(
+  "/:id",
+  userMiddleware.checkLogin,
+  userMiddleware.author,
+  postController.update
+);
 module.exports = postRouter;
